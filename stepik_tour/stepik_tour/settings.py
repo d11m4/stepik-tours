@@ -25,7 +25,8 @@ SECRET_KEY = '$_h5_m776$9#2$z(l8gbr!le%6al#(xs0gi%2lar^!i%io5=92'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = ['*']
+STATIC_ROOT = 'static'
 
 
 # Application definition
