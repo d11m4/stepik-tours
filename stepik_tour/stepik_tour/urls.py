@@ -22,9 +22,10 @@ from tours.views import TourView
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
     path('', MainView.as_view()),
-    path('departure/<str:departure>/', DepartureView.as_view()),
+    path('departure/<str:departure>/', DepartureView.as_view(), name='departure'),
     path('tour/<int:id>/', TourView.as_view()),
+
+    path('admin/', admin.site.urls),
 
 ]
