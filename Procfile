@@ -1,0 +1,1 @@
+web: gunicorn --chdir stepik_tour stepik_tour.wsgi
