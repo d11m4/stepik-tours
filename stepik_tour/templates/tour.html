@@ -1,23 +1,5 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>{{ tour.title }} {{ tour.stars }}</title>
-    <style type="text/css">
-      
-      body { background-color: #2574b0; }
-      
-      
-    </style>
-  </head>
-  <body>
-    <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ tour.title }} {{ tour.stars }} ✮ </title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-</head>
-<body>
+{% extends 'base.html' %}
+{% block content %}
 
 <div class="container mt-3">
 
@@ -53,7 +35,4 @@
     <a href="" class="btn btn-success btn-lg" data-test="buybutton">Купить тур за <span data-test="price">{{ tour.price }}</span></a>
 </div>
 
-</body>
-</html>
-  </body>
-</html>
+{% endblock %}
