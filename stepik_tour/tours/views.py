@@ -27,8 +27,8 @@ class DepartureView(View):
 
         departure_tours = dict(((tour_id, tour) for (tour_id, tour) in tours.items() if tour['departure'] == departure))
 
-        tours_price = list((tour['price']) for (tour_id, tour) in departure_tours.items())
-        tours_nights = list((tour['nights']) for (tour_id, tour) in departure_tours.items())
+        tours_price = list((tour['price']) for tour in departure_tours.values())
+        tours_nights = list((tour['nights']) for tour in departure_tours.values())
 
         price_min = min(tours_price)
         price_max = max(tours_price)
