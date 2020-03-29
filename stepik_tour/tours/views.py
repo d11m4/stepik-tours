@@ -1,68 +1,70 @@
+from django.http import Http404
 from django.shortcuts import render
-from django.http import (Http404, HttpResponse)
-from django.conf import settings
 from django.views import View
+
 from tours.data import (departures, tours, title, subtitle, description)
-from django.urls import resolve
 
-
-    
 
 # Create your views here.
 class MainView(View):
     def get(self, request):
-        f_tours = dict(((k, v) for (k, v) in tours.items() if k <=6 ))
+        index_tours = dict(((tour_id, tour) for (tour_id, tour) in tours.items() if tour_id <= 6))
+
         return render(
             request, 'index.html',
-            {'f_tours' : f_tours,
-            'title' : title,
-            'subtitle' : subtitle,
-            'description' : description,
-            'departures' : departures, }
+            {'index_tours': index_tours,
+             'title': title,
+             'subtitle': subtitle,
+             'description': description,
+             'departures': departures, }
         )
 
+
 class DepartureView(View):
-     def get(self, request, departure:str):
-        f_tours = dict(((k, v) for (k, v) in tours.items() if v['departure'] == departure)) 
-        f_price = list((v['price']) for (k, v) in f_tours.items())
-        f_nights = list((v['nights']) for (k, v) in f_tours.items())
-        pricemin = min(f_price)
-        pricemax = max(f_price)
-        nightsmax = max(f_nights)
-        nightsmin = min(f_nights)
+    def get(self, request, departure: str):
+        if departure not in departures.keys():
+            raise Http404('Страница не найдена')
 
-        tourcount = len(f_tours)
+        departure_tours = dict(((tour_id, tour) for (tour_id, tour) in tours.items() if tour['departure'] == departure))
 
+        tours_price = list((tour['price']) for (tour_id, tour) in departure_tours.items())
+        tours_nights = list((tour['nights']) for (tour_id, tour) in departure_tours.items())
 
-            
+        price_min = min(tours_price)
+        price_max = max(tours_price)
+        nights_max = max(tours_nights)
+        nights_min = min(tours_nights)
+
+        tourcount = len(departure_tours)
+
         return render(
             request, 'departure.html',
-            { 'title' : title,
-            'f_tours' : f_tours,
-            'departure' : departures[departure],
-            'departures' : departures,
-            'pricemin' : pricemin,
-            'pricemax' : pricemax,
-            'nightsmin' : nightsmin,
-            'nightsmax' : nightsmax,
-            'tourcount' : tourcount,
-            
-            }
+            {'title': title,
+             'departure_tours': departure_tours,
+             'departure': departures[departure],
+             'departures': departures,
+             'price_min': price_min,
+             'price_max': price_max,
+             'nights_min': nights_min,
+             'nights_max': nights_max,
+             'tourcount': tourcount,
+
+             }
 
         )
 
 
 class TourView(View):
+    def get(self, request, id: int):
+        if id not in tours.keys():
+            raise Http404('Страница не найдена')
 
-     def get(self, request, id:int):
-        
-        departure=tours[id]['departure']
+        departure = tours[id]['departure']
+
         return render(
             request, 'tour.html',
-            {'tour' : tours[id],
-            'departure' : departures[departure],
-            'departures' : departures }
+            {'tour': tours[id],
+             'departure': departures[departure],
+             'departures': departures}
 
         )
-
-
